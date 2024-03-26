@@ -1,0 +1,131 @@
+syntax="proto3";
+
+package attachment.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option go_package = "https://git-codecommit.cn-north-1.amazonaws.com.cn/v1/repos/attachment-service/proto;attachment";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Attachment service API";
+    version: "1.0";
+    description: "";
+    contact: {
+      name: "dev";
+      url: "";
+      email: "dev@devpeople.com";
+    };
+//    license: {
+//      name: "BSD 3-Clause License";
+//      url: "https://github.com/grpc-ecosystem/grpc-gateway/blob/master/LICENSE.txt";
+//    };
+  };
+  external_docs: {
+    url: "https://git-codecommit.cn-north-1.amazonaws.com.cn/v1/repos/attachment-service";
+    description: "gRPC attachment service repository";
+  };
+  schemes: HTTPS;
+  consumes: "application/json";
+  produces: "application/json";
+};
+
+service AttachmentService {
+  rpc CreatePDF(PDFRequest) returns(PDFResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/createPDF"
+      body: "*"
+    };
+  }
+  rpc CreateCSV(CSVRequest) returns(CSVResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/createCSV"
+      body: "*"
+    };
+  }
+}
+
+enum PrintSize {
+  A4 = 0;
+  A1 = 1;
+  A2 = 2;
+  A3 = 3;
+  A0 = 4;
+  A5 = 5;
+  B1 = 6;
+  B2 = 7;
+  B3 = 8;
+  B4 = 9;
+  B5 = 10;
+}
+enum Orientation {
+    Portrait = 0;
+    Landscape = 1;
+}
+
+message PDFMeta {
+  optional string title = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+      description: "The document title."
+    }
+  ];
+  optional uint32 dpi = 2 [
+    (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+      description: "The print dots per inch.",
+      default: "600",
+    }
+  ];
+  Orientation orientation = 3;
+  PrintSize printSize = 4 [
+    (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+      description: "The paper size."
+    }
+  ];
+}
+
+message PDFData {
+  string outFileUrl = 1;
+}
+
+message CSVData {
+  string outFileUrl = 1;
+}
+
+
+message PDFRequest {
+    PDFMeta meta = 1;
+    string url = 2 [
+      (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description: "The source url."
+      }
+    ];
+    string html = 3 [
+      (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description: "The source page code."
+      }
+    ];
+}
+
+message CSVRequest {
+
+}
+
+message PDFResponse {
+  PDFData data = 1;
+  int32 code = 2;
+  string message = 3;
+}
+
+message CSVResponse {
+  CSVData data = 1;
+  int32 code = 2;
+  string message = 3;
+}
+
+message Err {
+  int32 code = 1;
+  string message = 2;
+}

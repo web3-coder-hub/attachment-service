@@ -1,0 +1,242 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Attachment service API",
+    "version": "1.0",
+    "contact": {
+      "name": "dev",
+      "email": "dev@devpeople.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "AttachmentService"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/createCSV": {
+      "post": {
+        "operationId": "AttachmentService_CreateCSV",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CSVResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CSVRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AttachmentService"
+        ]
+      }
+    },
+    "/api/v1/createPDF": {
+      "post": {
+        "operationId": "AttachmentService_CreatePDF",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1PDFResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1PDFRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AttachmentService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1CSVData": {
+      "type": "object",
+      "properties": {
+        "outFileUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "v1CSVRequest": {
+      "type": "object"
+    },
+    "v1CSVResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/v1CSVData"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "v1Orientation": {
+      "type": "string",
+      "enum": [
+        "Portrait",
+        "Landscape"
+      ],
+      "default": "Portrait"
+    },
+    "v1PDFData": {
+      "type": "object",
+      "properties": {
+        "outFileUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "v1PDFMeta": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The document title.",
+          "required": [
+            "title"
+          ]
+        },
+        "dpi": {
+          "type": "integer",
+          "format": "int64",
+          "default": "600",
+          "description": "The print dots per inch."
+        },
+        "orientation": {
+          "$ref": "#/definitions/v1Orientation"
+        },
+        "printSize": {
+          "$ref": "#/definitions/v1PrintSize",
+          "description": "The paper size."
+        }
+      },
+      "required": [
+        "title"
+      ]
+    },
+    "v1PDFRequest": {
+      "type": "object",
+      "properties": {
+        "meta": {
+          "$ref": "#/definitions/v1PDFMeta"
+        },
+        "url": {
+          "type": "string",
+          "description": "The source url."
+        },
+        "html": {
+          "type": "string",
+          "description": "The source page code."
+        }
+      }
+    },
+    "v1PDFResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/v1PDFData"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "v1PrintSize": {
+      "type": "string",
+      "enum": [
+        "A4",
+        "A1",
+        "A2",
+        "A3",
+        "A0",
+        "A5",
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5"
+      ],
+      "default": "A4"
+    }
+  },
+  "externalDocs": {
+    "description": "gRPC attachment service repository",
+    "url": "https://git-codecommit.cn-north-1.amazonaws.com.cn/v1/repos/attachment-service"
+  }
+}

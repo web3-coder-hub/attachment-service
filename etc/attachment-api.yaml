@@ -1,0 +1,49 @@
+port: 9001
+datasource:
+  master:
+    driver_name: "mysql"
+    host: "234.45.313.31"
+    user: "root"
+    password: "dsdsdsds@"
+    dbname: "test"
+    port: 3306
+    max_open_conns: 200
+    max_idle_conns: 50
+  slave:
+    count: 1
+    driver_name: "mysql"
+    hosts: "234.45.313.31"
+    users: "root"
+    passwords: "dsdsdsds@"
+    dbnames: "test"
+    ports: 3306
+    max_open_conns: 200
+    max_idle_conns: 50
+redis:
+  host: 234.45.313.31
+  port: 6379
+  password: dsdsdsds~
+  db: 2
+  pool_size: 100
+# aws:
+#   access_key_id: xxx
+#   Secret_access_key: xx/xx
+#   region: ca-central-1
+#   file_s3:
+#     bucket_name: development-file
+#     domain_name: https://dev-file.com
+#     dist_id: xx
+#   front_s3:
+#     bucket_name: development-admin-front
+#     domain_name: https://dev-front.com/
+#     dist_id: xx
+#   front_admin_s3:
+#     bucket_name: development-admin
+#     domain_name: https://dev-admin.com/
+#     dist_id: xx
+mq:
+  amqp:
+    host: "34324.43.31.321"
+    port: 5672
+    user: "root"
+    password: "dsdsdsds~"
